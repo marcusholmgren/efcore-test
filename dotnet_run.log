@@ -1,0 +1,250 @@
+Hello ASP.NET Core!
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Infrastructure[100401]
+      An 'IServiceProvider' was created for internal use by Entity Framework.
+[40m[32minfo[39m[22m[49m: Microsoft.EntityFrameworkCore.Infrastructure[100403]
+      Entity Framework Core 2.0.0-rtm-26452 initialized 'BloggingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200000]
+      Opening connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200001]
+      Opened connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Transaction[200200]
+      Beginning transaction with isolation level 'ReadCommitted'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200100]
+      Executing DbCommand [Parameters=[@p0='?' (Size = 255)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [Blogger].[Blogs] ([Url])
+      VALUES (@p0);
+      SELECT [BlogId]
+      FROM [Blogger].[Blogs]
+      WHERE @@ROWCOUNT = 1 AND [BlogId] = scope_identity();
+[40m[32minfo[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200101]
+      Executed DbCommand (31ms) [Parameters=[@p0='?' (Size = 255)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [Blogger].[Blogs] ([Url])
+      VALUES (@p0);
+      SELECT [BlogId]
+      FROM [Blogger].[Blogs]
+      WHERE @@ROWCOUNT = 1 AND [BlogId] = scope_identity();
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200300]
+      A data reader was disposed.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200100]
+      Executing DbCommand [Parameters=[@p1='?', @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [Posts] ([BlogId], [Content], [Title])
+      VALUES (@p1, @p2, @p3);
+      SELECT [PostId]
+      FROM [Posts]
+      WHERE @@ROWCOUNT = 1 AND [PostId] = scope_identity();
+[40m[32minfo[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200101]
+      Executed DbCommand (1ms) [Parameters=[@p1='?', @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [Posts] ([BlogId], [Content], [Title])
+      VALUES (@p1, @p2, @p3);
+      SELECT [PostId]
+      FROM [Posts]
+      WHERE @@ROWCOUNT = 1 AND [PostId] = scope_identity();
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200300]
+      A data reader was disposed.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Transaction[200202]
+      Committing transaction.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200002]
+      Closing connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200003]
+      Closed connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Transaction[200204]
+      Disposing transaction.
+2 records saved to database
+---- New db context and add one new post to the blog.
+[40m[32minfo[39m[22m[49m: Microsoft.EntityFrameworkCore.Infrastructure[100403]
+      Entity Framework Core 2.0.0-rtm-26452 initialized 'BloggingContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Query[100101]
+      => Microsoft.EntityFrameworkCore.Query.RelationalQueryModelVisitor
+      Compiling query model: 
+      '(from Blog x in 
+          (from Blog x in DbSet<Blog>
+          select [x]).Include("Posts")
+      where [x].BlogId == __entityBlogId_0
+      select [x]).First()'
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Query[100105]
+      => Microsoft.EntityFrameworkCore.Query.RelationalQueryModelVisitor
+      Including navigation: '[x].Posts'
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Query[100104]
+      => Microsoft.EntityFrameworkCore.Query.RelationalQueryModelVisitor
+      Optimized query model: 
+      '(from Blog x in DbSet<Blog>
+      where [x].BlogId == __entityBlogId_0
+      order by Property([x], "BlogId") asc
+      select Blog _Include(
+          queryContext: queryContext, 
+          entity: [x], 
+          included: new object[]{ }, 
+          fixup: (QueryContext queryContext | Blog entity | Object[] included) => 
+          {
+              Void queryContext.QueryBuffer.StartTracking(
+                  entity: entity, 
+                  entityType: EntityType: Blog)
+              return Void queryContext.QueryBuffer.IncludeCollection(
+                  includeId: 0, 
+                  navigation: Blog.Posts, 
+                  inverseNavigation: Post.Blog, 
+                  targetEntityType: EntityType: Post, 
+                  clrCollectionAccessor: ClrICollectionAccessor<Blog, IEnumerable<Post>, Post>, 
+                  inverseClrPropertySetter: ClrPropertySetter<Post, Blog>, 
+                  tracking: True, 
+                  instance: entity, 
+                  valuesFactory: () => 
+                      from Post x.Posts in DbSet<Post>
+                      join AnonymousObject _x in 
+                          (from Blog x in DbSet<Blog>
+                          where [x].BlogId == __entityBlogId_0
+                          order by EF.Property(?[x]?, "BlogId") asc
+                          select new AnonymousObject(new object[]{ (object)EF.Property(?[x]?, "BlogId") })).Take(1)
+                      on Property([x.Posts], "BlogId") equals (Nullable<int>)object [_x].GetValue(0)
+                      order by object [_x].GetValue(0) asc
+                      select [x.Posts])
+          }
+      )).First()'
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Query[100107]
+      => Microsoft.EntityFrameworkCore.Query.RelationalQueryModelVisitor
+      (QueryContext queryContext) => IEnumerable<Blog> _InterceptExceptions(
+          source: IEnumerable<Blog> _TrackEntities(
+              results: IEnumerable<Blog> _ToSequence(Blog First(IEnumerable<Blog> _Select(
+                          source: IEnumerable<Blog> _ShapedQuery(
+                              queryContext: queryContext, 
+                              shaperCommandContext: SelectExpression: 
+                                  SELECT TOP(1) [x].[BlogId], [x].[Url]
+                                  FROM [Blogger].[Blogs] AS [x]
+                                  WHERE [x].[BlogId] = @__entityBlogId_0
+                                  ORDER BY [x].[BlogId], 
+                              shaper: BufferedEntityShaper<Blog>), 
+                          selector: (Blog x) => Blog _Include(
+                              queryContext: queryContext, 
+                              entity: x, 
+                              included: new object[]{ }, 
+                              fixup: (QueryContext queryContext | Blog entity | Object[] included) => 
+                              {
+                                  Void queryContext.QueryBuffer.StartTracking(
+                                      entity: entity, 
+                                      entityType: EntityType: Blog)
+                                  return Void queryContext.QueryBuffer.IncludeCollection(
+                                      includeId: 0, 
+                                      navigation: Blog.Posts, 
+                                      inverseNavigation: Post.Blog, 
+                                      targetEntityType: EntityType: Post, 
+                                      clrCollectionAccessor: ClrICollectionAccessor<Blog, IEnumerable<Post>, Post>, 
+                                      inverseClrPropertySetter: ClrPropertySetter<Post, Blog>, 
+                                      tracking: True, 
+                                      instance: entity, 
+                                      valuesFactory: () => IEnumerable<Post> _ShapedQuery(
+                                          queryContext: queryContext, 
+                                          shaperCommandContext: SelectExpression: 
+                                              SELECT [x.Posts].[PostId], [x.Posts].[BlogId], [x.Posts].[Content], [x.Posts].[Title]
+                                              FROM [Posts] AS [x.Posts]
+                                              INNER JOIN (
+                                                  SELECT TOP(1) [x0].[BlogId]
+                                                  FROM [Blogger].[Blogs] AS [x0]
+                                                  WHERE [x0].[BlogId] = @__entityBlogId_0
+                                                  ORDER BY [x0].[BlogId]
+                                              ) AS [t] ON [x.Posts].[BlogId] = [t].[BlogId]
+                                              ORDER BY [t].[BlogId], 
+                                          shaper: BufferedEntityShaper<Post>))
+                              }
+                          )))), 
+              queryContext: Unhandled parameter: queryContext, 
+              entityTrackingInfos: { itemType: Blog }, 
+              entityAccessors: List<Func<Blog, object>> 
+              { 
+                  Func<Blog, Blog>, 
+              }
+          ), 
+          contextType: efcore_test.BloggingContext, 
+          logger: DiagnosticsLogger<Query>, 
+          queryContext: Unhandled parameter: queryContext)
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200000]
+      Opening connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200001]
+      Opened connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200100]
+      Executing DbCommand [Parameters=[@__entityBlogId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [x].[BlogId], [x].[Url]
+      FROM [Blogger].[Blogs] AS [x]
+      WHERE [x].[BlogId] = @__entityBlogId_0
+      ORDER BY [x].[BlogId]
+[40m[32minfo[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200101]
+      Executed DbCommand (1ms) [Parameters=[@__entityBlogId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [x].[BlogId], [x].[Url]
+      FROM [Blogger].[Blogs] AS [x]
+      WHERE [x].[BlogId] = @__entityBlogId_0
+      ORDER BY [x].[BlogId]
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200100]
+      Executing DbCommand [Parameters=[@__entityBlogId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT [x.Posts].[PostId], [x.Posts].[BlogId], [x.Posts].[Content], [x.Posts].[Title]
+      FROM [Posts] AS [x.Posts]
+      INNER JOIN (
+          SELECT TOP(1) [x0].[BlogId]
+          FROM [Blogger].[Blogs] AS [x0]
+          WHERE [x0].[BlogId] = @__entityBlogId_0
+          ORDER BY [x0].[BlogId]
+      ) AS [t] ON [x.Posts].[BlogId] = [t].[BlogId]
+      ORDER BY [t].[BlogId]
+[40m[32minfo[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200101]
+      Executed DbCommand (1ms) [Parameters=[@__entityBlogId_0='?'], CommandType='Text', CommandTimeout='30']
+      SELECT [x.Posts].[PostId], [x.Posts].[BlogId], [x.Posts].[Content], [x.Posts].[Title]
+      FROM [Posts] AS [x.Posts]
+      INNER JOIN (
+          SELECT TOP(1) [x0].[BlogId]
+          FROM [Blogger].[Blogs] AS [x0]
+          WHERE [x0].[BlogId] = @__entityBlogId_0
+          ORDER BY [x0].[BlogId]
+      ) AS [t] ON [x.Posts].[BlogId] = [t].[BlogId]
+      ORDER BY [t].[BlogId]
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200300]
+      A data reader was disposed.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200300]
+      A data reader was disposed.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200002]
+      Closing connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200003]
+      Closed connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200000]
+      Opening connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200001]
+      Opened connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Transaction[200200]
+      Beginning transaction with isolation level 'ReadCommitted'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200100]
+      Executing DbCommand [Parameters=[@p0='?', @p1='?', @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      DELETE FROM [Posts]
+      WHERE [PostId] = @p0;
+      SELECT @@ROWCOUNT;
+      
+      INSERT INTO [Posts] ([BlogId], [Content], [Title])
+      VALUES (@p1, @p2, @p3);
+      SELECT [PostId]
+      FROM [Posts]
+      WHERE @@ROWCOUNT = 1 AND [PostId] = scope_identity();
+[40m[32minfo[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?', @p2='?' (Size = 4000), @p3='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      DELETE FROM [Posts]
+      WHERE [PostId] = @p0;
+      SELECT @@ROWCOUNT;
+      
+      INSERT INTO [Posts] ([BlogId], [Content], [Title])
+      VALUES (@p1, @p2, @p3);
+      SELECT [PostId]
+      FROM [Posts]
+      WHERE @@ROWCOUNT = 1 AND [PostId] = scope_identity();
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Command[200300]
+      A data reader was disposed.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Transaction[200202]
+      Committing transaction.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200002]
+      Closing connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Connection[200003]
+      Closed connection to database 'efcore-test' on server 'localhost'.
+[40m[37mdbug[39m[22m[49m: Microsoft.EntityFrameworkCore.Database.Transaction[200204]
+      Disposing transaction.
+2 records impacted in database
+
