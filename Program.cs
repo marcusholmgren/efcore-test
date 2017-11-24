@@ -29,7 +29,7 @@ namespace efcore_test
             {
                 var blogWithPost = db.Blogs.Include(x => x.Posts)
                                      .First(x => x.BlogId == entityBlogId);
-                blogWithPost.Add(new Post { Title = "Unexpected delete", Content = "I did not expected this..." });
+                blogWithPost.Add(new Post { Title = "Expected insert", Content = "I see insert statement..." });
                 var impactCount = db.SaveChanges();
                 Console.WriteLine("{0} records impacted in database", impactCount);
             }
@@ -63,7 +63,7 @@ namespace efcore_test
                 .HasMaxLength(255)
                 .IsRequired();
             modelBuilder.Entity<Blog>()
-                .HasMany(x => x.Posts);
+                        .HasMany(x => x.Posts);
                 
 
             
@@ -79,7 +79,7 @@ namespace efcore_test
         public string Url { get; set; }
 
         private ISet<Post> posts;
-        public IEnumerable<Post> Posts => posts ?? new HashSet<Post>();
+        public IEnumerable<Post> Posts => posts ?? (posts = new HashSet<Post>());
 
         public void Add(Post post)
         {
